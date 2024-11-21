@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   emailTypo: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     textAlign: "center",
     position: "absolute",
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     bottom: "93.25%",
     left: "3.67%",
     position: "absolute",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   username: {
     height: "4.53%",

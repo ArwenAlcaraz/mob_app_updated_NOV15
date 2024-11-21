@@ -1,8 +1,14 @@
 import * as React from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Pressable } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { Border, FontFamily, FontSize, Color } from "../GlobalStyles";
+import { Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
 import Icon from "react-native-vector-icons/Octicons";
 
 const AboutUsScreenDevice = () => {
@@ -17,26 +23,47 @@ const AboutUsScreenDevice = () => {
       >{`The device consists of several components such as the attractant modules (UV light and piezo buzzer), the web camera, and the DC fans. The enclosure of the components is made of transparent acrylic with a thickness of 3 millimeters. In addition to that, the bait compartment in the figure, which holds the attractant modules, is a customized 3D printed model made with PETG filament.
 `}</Text>
       <View style={[styles.aboutUsScreenDeviceItem, styles.aboutLayout]} />
-      <Pressable style={[styles.homeIcon]} onPress={() => navigation.navigate("HomeScreen")} > 
-      <Icon name="home" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.homeIcon]}
+        onPress={() => navigation.navigate("HomeScreen")}
+      >
+        <Icon name="home" size={35} color="#132A17" />
+      </Pressable>
 
-      <Pressable style={[styles.vectorIconPNG]} onPress={() => navigation.navigate("AboutUsScreen")} > 
-      <Icon name="arrow-left" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.vectorIconPNG]}
+        onPress={() => navigation.navigate("AboutUsScreen")}
+      >
+        <Icon name="arrow-left" size={35} color="#132A17" />
+      </Pressable>
 
-      <Icon name="feed-person" size={35} color="#3A7D44" style={[styles.vectorIcon2]} /> 
+      <Icon
+        name="feed-person"
+        size={35}
+        color="#3A7D44"
+        style={[styles.vectorIcon2]}
+      />
 
-      <Pressable style={[styles.controlIcon]} onPress={() => navigation.navigate("ControlOff")} > 
-      <Icon name="plus-circle" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.controlIcon]}
+        onPress={() => navigation.navigate("ControlOff")}
+      >
+        <Icon name="plus-circle" size={35} color="#132A17" />
+      </Pressable>
 
-      <Pressable style={[styles.vectorIcon6]} onPress={() => navigation.navigate("Stats")} > 
-      <Icon name="graph" size={32} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.vectorIcon6]}
+        onPress={() => navigation.navigate("Stats")}
+      >
+        <Icon name="graph" size={32} color="#132A17" />
+      </Pressable>
 
       <View style={[styles.button, styles.buttonPosition]}>
         <View style={[styles.buttonChild, styles.childPosition]} />
         <Image
           style={[styles.hardwareDesign1, styles.vectorIconLayout]}
           contentFit="cover"
-          source={require("../assets/hardware-design1.png")}
+          source={require("../../assets/hardware-design1.png")}
         />
       </View>
     </View>
@@ -51,7 +78,7 @@ const styles = StyleSheet.create({
   },
   deviceTypo: {
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
     color: "#F9E2D0",
@@ -59,7 +86,7 @@ const styles = StyleSheet.create({
   deviceTypo1: {
     textAlign: "center",
     color: Color.colorBlack,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -87,7 +114,7 @@ const styles = StyleSheet.create({
     top: "7.25%",
     left: "35.33%",
     fontSize: 28,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
     letterSpacing: 2,
@@ -99,9 +126,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#AFE1AF",
     left: "6.94%",
-    textShadowColor: '#000',  
-    textShadowOffset: { width: 1, height: 1 },  
-    textShadowRadius: 3, 
+    textShadowColor: "#000",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   vectorIcon: {
     right: "54.17%",
@@ -121,8 +148,7 @@ const styles = StyleSheet.create({
     bottom: "93.25%",
     left: "3.67%",
     position: "absolute",
-    overflow: "hidden"
-
+    overflow: "hidden",
   },
   vectorIcon2: {
     height: "13.42%",
@@ -160,7 +186,7 @@ const styles = StyleSheet.create({
     bottom: "0%",
     borderRadius: Border.br_4xs,
     backgroundColor: "rgba(255, 255, 255, 1)",
-    left: "20%", 
+    left: "20%",
     right: "10%",
     maxHeight: "100%",
     maxWidth: "100%",
@@ -185,10 +211,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
   },
   vectorIcon6: {
-    height: "13.85%", 
-    width: "16.89%", 
-    position: "absolute", 
-    top: "93.12%",  
+    height: "13.85%",
+    width: "16.89%",
+    position: "absolute",
+    top: "93.12%",
     left: "34.56%",
   },
   buttonShadowBox: {

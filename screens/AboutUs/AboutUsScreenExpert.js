@@ -1,8 +1,14 @@
 import * as React from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Pressable} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
+import { Border, Color, FontFamily, FontSize } from "../../GlobalStyles";
 import Icon from "react-native-vector-icons/Octicons";
 
 const AboutUsScreenExpert = () => {
@@ -16,23 +22,44 @@ const AboutUsScreenExpert = () => {
         <Image
           style={[styles.buttonChild, styles.vectorIconLayout1]}
           contentFit="cover"
-          source={require("../assets/rectangle-12.png")}
+          source={require("../../assets/rectangle-12.png")}
         />
       </View>
       <View style={[styles.aboutUsScreenExpertItem, styles.aboutPosition]} />
-      <Pressable style={[styles.homeIcon]} onPress={() => navigation.navigate("HomeScreen")} > 
-      <Icon name="home" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.homeIcon]}
+        onPress={() => navigation.navigate("HomeScreen")}
+      >
+        <Icon name="home" size={35} color="#132A17" />{" "}
+      </Pressable>
 
-      <Pressable style={[styles.vectorIconPNG]} onPress={() => navigation.navigate("AboutUsScreen")} > 
-      <Icon name="arrow-left" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.vectorIconPNG]}
+        onPress={() => navigation.navigate("AboutUsScreen")}
+      >
+        <Icon name="arrow-left" size={35} color="#132A17" />{" "}
+      </Pressable>
 
-      <Icon name="feed-person" size={35} color="#3A7D44" style={[styles.vectorIcon2]} /> 
+      <Icon
+        name="feed-person"
+        size={35}
+        color="#3A7D44"
+        style={[styles.vectorIcon2]}
+      />
 
-      <Pressable style={[styles.controlIcon]} onPress={() => navigation.navigate("ControlOff")} > 
-      <Icon name="plus-circle" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.controlIcon]}
+        onPress={() => navigation.navigate("ControlOff")}
+      >
+        <Icon name="plus-circle" size={35} color="#132A17" />{" "}
+      </Pressable>
 
-      <Pressable style={[styles.vectorIcon9]} onPress={() => navigation.navigate("Stats")} > 
-      <Icon name="graph" size={32} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.vectorIcon9]}
+        onPress={() => navigation.navigate("Stats")}
+      >
+        <Icon name="graph" size={32} color="#132A17" />{" "}
+      </Pressable>
 
       <Text style={[styles.weAreCollaborating]}>
         We are collaborating with Mr. Daryl Hernandez, an entomologist with 12
@@ -57,7 +84,7 @@ const styles = StyleSheet.create({
   expertTypo: {
     textAlign: "center",
     color: Color.colorBlack,
-    fontFamily:'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
   },
   vectorIconLayout1: {
@@ -88,7 +115,7 @@ const styles = StyleSheet.create({
   getStarted1Typo: {
     color: Color.colorSnow,
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
   },
   iconPosition1: {
@@ -118,7 +145,7 @@ const styles = StyleSheet.create({
     left: "34.33%",
     fontSize: 28,
     position: "absolute",
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
     letterSpacing: 2,
@@ -142,7 +169,7 @@ const styles = StyleSheet.create({
     bottom: "93.25%",
     left: "3.67%",
     position: "absolute",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   vectorIcon2: {
     height: "13.42%",
@@ -154,10 +181,10 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   vectorIcon9: {
-    height: "13.85%", 
-    width: "16.89%", 
-    position: "absolute", 
-    top: "93.12%",  
+    height: "13.85%",
+    width: "16.89%",
+    position: "absolute",
+    top: "93.12%",
     left: "34.56%",
   },
   buttonChild: {
@@ -218,11 +245,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#F9E2D0",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
-    textShadowColor: '#000',  
-    textShadowOffset: { width: 1, height: 1 },  
-    textShadowRadius: 3, 
+    textShadowColor: "#000",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
     position: "absolute",
   },
   aboutUsScreenExpert: {

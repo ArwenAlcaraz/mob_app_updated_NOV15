@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import { FontSize, FontFamily, Border, Color } from "../GlobalStyles";
+import { FontSize, FontFamily, Border, Color } from "../../GlobalStyles";
 import Icon from "react-native-vector-icons/Octicons";
 
 const AboutUsScreen = () => {
@@ -41,29 +41,69 @@ const AboutUsScreen = () => {
         onPress={() => navigation.navigate("AboutUsScreenDevice")}
       >
         <View style={styles.groupPosition} />
-        <Text style={[styles.team, styles.teamTypo]}>{`Device `}</Text>
+        <Text style={[styles.team, styles.teamTypo]}>Device</Text>
       </Pressable>
-  
-      <Icon name="people" size={40} color="#132A17" style={[styles.groupChat1Icon]} />
-      <Icon name="person-fill" size={40} color="#132A17" style={[styles.user1Icon]} />
-      <Icon name="briefcase" size={38} color="#132A17" style={[styles.expert1Icon]} />
-      <Icon name="webhook" size={38} color="#132A17" style={[styles.pcbBoard1Icon]} />
+
+      <Icon
+        name="people"
+        size={40}
+        color="#132A17"
+        style={[styles.groupChat1Icon]}
+      />
+      <Icon
+        name="person-fill"
+        size={40}
+        color="#132A17"
+        style={[styles.user1Icon]}
+      />
+      <Icon
+        name="briefcase"
+        size={38}
+        color="#132A17"
+        style={[styles.expert1Icon]}
+      />
+      <Icon
+        name="webhook"
+        size={38}
+        color="#132A17"
+        style={[styles.pcbBoard1Icon]}
+      />
 
       <View style={[styles.aboutUsScreenChild2, styles.aboutChildPosition]} />
-      <Pressable style={[styles.homeIcon]} onPress={() => navigation.navigate("HomeScreen")} > 
-      <Icon name="home" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.homeIcon]}
+        onPress={() => navigation.navigate("HomeScreen")}
+      >
+        <Icon name="home" size={35} color="#132A17" />
+      </Pressable>
 
-      <Pressable style={[styles.vectorIconPNG]} onPress={() => navigation.navigate("HomeScreen")} > 
-      <Icon name="arrow-left" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.vectorIconPNG]}
+        onPress={() => navigation.navigate("HomeScreen")}
+      >
+        <Icon name="arrow-left" size={35} color="#132A17" />
+      </Pressable>
 
-      <Icon name="feed-person" size={35} color="#3A7D44" style={[styles.vectorIcon2]} /> 
+      <Icon
+        name="feed-person"
+        size={35}
+        color="#3A7D44"
+        style={[styles.vectorIcon2]}
+      />
 
-      <Pressable style={[styles.controlIcon]} onPress={() => navigation.navigate("ControlOff")} > 
-      <Icon name="plus-circle" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.controlIcon]}
+        onPress={() => navigation.navigate("ControlOff")}
+      >
+        <Icon name="plus-circle" size={35} color="#132A17" />
+      </Pressable>
 
-      <Pressable style={[styles.vectorIcon9]} onPress={() => navigation.navigate("Stats")} > 
-      <Icon name="graph" size={32} color="#132A17" /> </Pressable>
-
+      <Pressable
+        style={[styles.vectorIcon9]}
+        onPress={() => navigation.navigate("Stats")}
+      >
+        <Icon name="graph" size={32} color="#132A17" />
+      </Pressable>
     </View>
   );
 };
@@ -78,7 +118,7 @@ const styles = StyleSheet.create({
   },
   teamTypo: {
     textAlign: "center",
-    fontFamily:'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     fontHeight: "800",
     position: "absolute",
@@ -91,7 +131,7 @@ const styles = StyleSheet.create({
     height: "7.5%",
     position: "absolute",
   },
-  
+
   iconPosition1: {
     width: 40,
     left: 108,
@@ -111,20 +151,20 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   buttonChild: {
-  borderRadius: Border.br_4xs,
-  backgroundColor: "#132A17",
-  left: "0%",
-  bottom: "0%",
-  right: "0%",
-  top: "0%",
-  height: "100%",
-  position: "absolute",
-  width: "100%",
-  shadowColor: "#000",
-  shadowOffset: { width: 5, height: 3 }, 
-  shadowOpacity: 0.1, 
-  shadowRadius: 2, 
-  elevation: 6,
+    borderRadius: Border.br_4xs,
+    backgroundColor: "#132A17",
+    left: "0%",
+    bottom: "0%",
+    right: "0%",
+    top: "0%",
+    height: "100%",
+    position: "absolute",
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: { width: 5, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 6,
   },
   getStarted: {
     color: Color.colorBlack,
@@ -161,13 +201,13 @@ const styles = StyleSheet.create({
     top: "8.52%",
     left: "27.47%",
     fontSize: 22,
-    lineHeight: 23, 
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    lineHeight: 23,
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
     letterSpacing: 2,
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     color: Color.colorBlack,
     position: "fixed",
@@ -197,7 +237,7 @@ const styles = StyleSheet.create({
     left: "7.41%",
     fontSize: 27,
     color: Color.colorWhite,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
   },
@@ -271,7 +311,7 @@ const styles = StyleSheet.create({
     bottom: "93.25%",
     left: "3.67%",
     position: "absolute",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   vectorIcon2: {
     height: "13.42%",
@@ -300,10 +340,10 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   vectorIcon9: {
-    height: "13.85%", 
-    width: "16.89%", 
-    position: "absolute", 
-    top: "93.12%",  
+    height: "13.85%",
+    width: "16.89%",
+    position: "absolute",
+    top: "93.12%",
     left: "34.56%",
   },
   vectorIcon1: {

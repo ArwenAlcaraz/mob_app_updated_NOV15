@@ -1,8 +1,14 @@
 import * as React from "react";
-import { StyleSheet, Text, View, Pressable, TouchableOpacity} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
-import { Border, Color, FontFamily, FontSize } from "../GlobalStyles";
+import { Border, Color, FontFamily, FontSize } from "../../GlobalStyles";
 import Icon from "react-native-vector-icons/Octicons";
 
 const AboutUsScreenTeam = () => {
@@ -16,7 +22,7 @@ const AboutUsScreenTeam = () => {
         <Image
           style={[styles.buttonChild, styles.buttonChildLayout]}
           contentFit="cover"
-          source={require("../assets/rectangle-1.png")}
+          source={require("../../assets/rectangle-1.png")}
         />
       </View>
       <Text style={[styles.ourTeamIsTypo]}>
@@ -27,24 +33,44 @@ const AboutUsScreenTeam = () => {
         and meaningful research. Together, we are committed to achieve
         excellence and make a significant impact in our field.
       </Text>
-     <View style={[styles.aboutUsScreenTeamItem, styles.aboutLayout]} />
-     <Pressable style={[styles.homeIcon]} onPress={() => navigation.navigate("HomeScreen")} > 
-      <Icon name="home" size={35} color="#132A17" /> </Pressable>
+      <View style={[styles.aboutUsScreenTeamItem, styles.aboutLayout]} />
+      <Pressable
+        style={[styles.homeIcon]}
+        onPress={() => navigation.navigate("HomeScreen")}
+      >
+        <Icon name="home" size={35} color="#132A17" />{" "}
+      </Pressable>
 
-      <Pressable style={[styles.vectorIconPNG]} onPress={() => navigation.navigate("AboutUsScreen")} > 
-      <Icon name="arrow-left" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.vectorIconPNG]}
+        onPress={() => navigation.navigate("AboutUsScreen")}
+      >
+        <Icon name="arrow-left" size={35} color="#132A17" />{" "}
+      </Pressable>
 
-      <Icon name="feed-person" size={35} color="#3A7D44" style={[styles.vectorIcon2]} /> 
+      <Icon
+        name="feed-person"
+        size={35}
+        color="#3A7D44"
+        style={[styles.vectorIcon2]}
+      />
 
-      <Pressable style={[styles.controlIcon]} onPress={() => navigation.navigate("ControlOff")} > 
-      <Icon name="plus-circle" size={35} color="#132A17" /> </Pressable>
+      <Pressable
+        style={[styles.controlIcon]}
+        onPress={() => navigation.navigate("ControlOff")}
+      >
+        <Icon name="plus-circle" size={35} color="#132A17" />{" "}
+      </Pressable>
 
-      <Pressable style={[styles.vectorIcon9]} onPress={() => navigation.navigate("Stats")} > 
-      <Icon name="graph" size={32} color="#132A17" /> </Pressable>
-
+      <Pressable
+        style={[styles.vectorIcon9]}
+        onPress={() => navigation.navigate("Stats")}
+      >
+        <Icon name="graph" size={32} color="#132A17" />{" "}
+      </Pressable>
     </View>
-      );
-    };
+  );
+};
 
 const styles = StyleSheet.create({
   aboutLayout: {
@@ -55,7 +81,7 @@ const styles = StyleSheet.create({
   teamTypo: {
     textAlign: "center",
     color: Color.colorBlack,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -73,17 +99,17 @@ const styles = StyleSheet.create({
     width: "60.38%",
     height: "49.24%",
   },
-ourTeamIsTypo: {
-  top: "50.23%",
-  color: "#F9E2D0",
-  textAlign: "center",
-  fontFamily: 'Poppins-SemiBold',
-  fontWeight: "600",
-  position: "absolute",
-  textShadowColor: '#000',  
-  textShadowOffset: { width: 1, height: 1 },  
-  textShadowRadius: 3,  
-  left: "-0.50%", 
+  ourTeamIsTypo: {
+    top: "50.23%",
+    color: "#F9E2D0",
+    textAlign: "center",
+    fontFamily: "Poppins-SemiBold",
+    fontWeight: "600",
+    position: "absolute",
+    textShadowColor: "#000",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+    left: "-0.50%",
   },
   iconPosition1: {
     top: "91.09%",
@@ -113,7 +139,7 @@ ourTeamIsTypo: {
     top: "7.41%",
     left: "38.61%",
     fontSize: 28,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
     letterSpacing: 2,
@@ -133,7 +159,7 @@ ourTeamIsTypo: {
   getStarted: {
     textAlign: "center",
     color: Color.colorBlack,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -184,7 +210,7 @@ ourTeamIsTypo: {
     bottom: "93.25%",
     left: "3.67%",
     position: "absolute",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   vectorIcon1: {
     right: "51.94%",
@@ -245,10 +271,10 @@ ourTeamIsTypo: {
     position: "absolute",
   },
   vectorIcon9: {
-    height: "13.85%", 
-    width: "16.89%", 
-    position: "absolute", 
-    top: "93.12%",  
+    height: "13.85%",
+    width: "16.89%",
+    position: "absolute",
+    top: "93.12%",
     left: "34.56%",
   },
   aboutUsScreenTeam: {

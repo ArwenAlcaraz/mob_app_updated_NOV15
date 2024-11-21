@@ -1,11 +1,30 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable, Modal } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { FontFamily, Border, FontSize, Color } from "../GlobalStyles";
-
+import { AuthContext } from "../context/authContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const LeftPanel = () => {
   const navigation = useNavigation();
+  const [isModalVisible, setModalVisible] = React.useState(false);
+  const [logOutState, setLogOutState] = React.useContext(AuthContext);
+
+  const toggleLogOut = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleLogout = async () => {
+    try {
+      setLogOutState({ token: "", user: null });
+      await AsyncStorage.removeItem("@auth");
+      alert("User logged out successfully.");
+      navigation.navigate("LoginScreen");
+    } catch (error) {
+      console.error("Error during logout:", error);
+      Alert.alert("Logout Failed", "An error occurred while logging out.");
+    }
+  };
 
   return (
     <View style={styles.leftPanel}>
@@ -73,9 +92,7 @@ const LeftPanel = () => {
         <Text style={[styles.getStarted14, styles.getTypo1]}>Get Started</Text>
         <Text style={[styles.getStarted15, styles.getTypo1]} />
       </View>
-      <Text style={[styles.historyData, styles.usernameTypo]}>
-        History Data
-      </Text>
+      <Text style={[styles.historyData, styles.usernameTypo]}>USERNAME</Text>
       <Image
         style={[styles.dicons, styles.iconLayout]}
         contentFit="cover"
@@ -101,12 +118,11 @@ const LeftPanel = () => {
         contentFit="cover"
         source={require("../assets/vector6.png")}
       />
-          <Pressable
+      <Pressable
         style={[styles.vectorIcon, styles.vectorIconPosition]}
         onPress={() => navigation.navigate("HomeScreen")}
-      >
-      </Pressable>
-      <Text style={[styles.username, styles.usernameTypo]}>USERNAME</Text>
+      ></Pressable>
+      <Text style={[styles.username, styles.usernameTypo]}>Hi, Farmer!</Text>
       <Pressable
         style={[styles.information, styles.addDeviceTypo]}
         onPress={() => navigation.navigate("AboutUsScreen")}
@@ -117,7 +133,7 @@ const LeftPanel = () => {
       <Text style={[styles.settings, styles.settingsTypo]}>SETTINGS</Text>
       <Pressable
         style={[styles.logOut, styles.logOutPosition]}
-        onPress={() => navigation.navigate("LogOut")}
+        onPress={toggleLogOut}
       >
         <Text style={styles.logOut1}>LOG OUT</Text>
       </Pressable>
@@ -156,6 +172,35 @@ const LeftPanel = () => {
         contentFit="cover"
         source={require("../assets/outputonlinepngtools-2-21.png")}
       />
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={toggleLogOut}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Logout Confirmation</Text>
+            <Text style={styles.modalContent}>
+              Are you sure you want to log out your account?
+            </Text>
+            <View style={styles.buttonContainer}>
+              <Pressable
+                style={[styles.closeButton, { backgroundColor: "#3A7D44" }]}
+                onPress={toggleLogOut}
+              >
+                <Text style={styles.closeButtonText}>No</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.closeButton, { backgroundColor: "red" }]}
+                onPress={handleLogout}
+              >
+                <Text style={styles.closeButtonText}>Yes</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -163,7 +208,7 @@ const LeftPanel = () => {
 const styles = StyleSheet.create({
   homeTypo: {
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -201,7 +246,7 @@ const styles = StyleSheet.create({
     width: "60.38%",
     height: "49.24%",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -228,7 +273,7 @@ const styles = StyleSheet.create({
     left: "20%",
     top: "26.18%",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -259,7 +304,7 @@ const styles = StyleSheet.create({
     left: "20%",
     width: "60.38%",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -291,14 +336,14 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_lg,
     left: "20%",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
   usernameTypo: {
     color: Color.colorSeagreen,
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -309,7 +354,7 @@ const styles = StyleSheet.create({
     width: "42.61%",
     fontSize: FontSize.size_smi,
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -328,7 +373,7 @@ const styles = StyleSheet.create({
     left: "20%",
     width: "60.38%",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -354,7 +399,7 @@ const styles = StyleSheet.create({
     },
     textShadowColor: "rgba(0, 0, 0, 0.25)",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
   },
   leftPanelChild: {
@@ -474,7 +519,7 @@ const styles = StyleSheet.create({
     height: "3.13%",
     top: "72.03%",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -503,7 +548,7 @@ const styles = StyleSheet.create({
     letterSpacing: 4.3,
     color: Color.colorDarkslategray,
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     position: "absolute",
   },
@@ -548,7 +593,7 @@ const styles = StyleSheet.create({
   information: {
     top: "53.24%",
     left: "25.98%",
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
   },
@@ -632,7 +677,7 @@ const styles = StyleSheet.create({
     },
     textShadowColor: "rgba(0, 0, 0, 0.25)",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
   },
   settings: {
@@ -651,7 +696,7 @@ const styles = StyleSheet.create({
     },
     textShadowColor: "rgba(0, 0, 0, 0.25)",
     textAlign: "center",
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
   },
   logOut: {
@@ -723,6 +768,48 @@ const styles = StyleSheet.create({
     height: 640,
     overflow: "hidden",
     width: "100%",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)", // Semi-transparent background
+  },
+  modalContainer: {
+    width: "80%",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+    elevation: 10,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontFamily: "Poppins-Bold",
+    marginBottom: 10,
+  },
+  modalContent: {
+    fontSize: 16,
+    fontFamily: "Poppins-SemiBold",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  closeButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "Poppins-SemiBold",
+  },
+  buttonContainer: {
+    flexDirection: "row", // Align children horizontally
+    justifyContent: "space-evenly", // Adjust spacing between buttons
+    alignItems: "center", // Align buttons vertically in the row
+    marginTop: 20,
   },
 });
 

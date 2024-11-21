@@ -1,31 +1,40 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import {StyleSheet, View, Text, Button, Alert, Dimensions, Image, Pressable,} from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Alert,
+  Dimensions,
+  Image,
+  Pressable,
+} from "react-native";
 import { Border, FontSize, FontFamily, Color } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { BarChart } from "react-native-gifted-charts";
 import axios from "axios";
 import Icon from "react-native-vector-icons/Octicons";
-import RNPickerSelect from 'react-native-picker-select'; 
+import RNPickerSelect from "react-native-picker-select";
 
 const pickerSelectStyles = {
   inputIOS: {
     fontSize: 12,
-    fontColor: 'white',
+    fontColor: "white",
     padding: 12,
     borderRadius: 30,
     borderWidth: 1,
     borderColor: Color.colorPeachpuff,
-    backgroundColor: '#F9E2D0',
+    backgroundColor: "#F9E2D0",
     fontFamily: "Poppins-SemiBold",
     position: "fixed",
   },
   inputAndroid: {
     padding: 7,
-    fontColor: 'white',
+    fontColor: "white",
     borderRadius: 35,
     borderWidth: 1,
-    backgroundColor: '#F9E2D0',
+    backgroundColor: "#F9E2D0",
     top: 125,
     width: 225,
     height: 55,
@@ -34,256 +43,30 @@ const pickerSelectStyles = {
     elevation: 3,
   },
   placeholder: {
-    color: '#3A7D44', 
+    color: "#3A7D44",
     fontFamily: "Poppins-SemiBold",
     fontSize: 12,
-    backgroundColor: '#F9E2D0',
+    backgroundColor: "#F9E2D0",
   },
   option: {
-    fontSize: 14, 
+    fontSize: 14,
     fontFamily: "Poppins-SemiBold",
-    color: 'blue', 
-    paddingVertical: 10, 
-    paddingHorizontal: 15, 
-    backgroundColor: '#F9E2D0', 
+    color: "blue",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: "#F9E2D0",
   },
 };
 
-const Stats = () => {
+const Stats = ({ route }) => {
   const navigation = useNavigation();
-
-  const handleGetStartedPress = () => {
-    // Navigate to Details
-    navigation.navigate("Details");
-  };
-
+  const { userData } = route.params;
+  const [barData, setBarData] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [selectedTimeRange, setSelectedTimeRange] = useState("7AM-12PM");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const screenWidth = Dimensions.get("window").width;
-
-  const [barData, setBarData] = useState({
-    "7AM-12PM": [
-      {
-        value: 10,
-        label: "Jan",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-        
-      },
-      { value: 20, frontColor: "#F6D4BA" },
-      {
-        value: 50,
-        label: "Feb",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 40, frontColor: "#F6D4BA" },
-      {
-        value: 75,
-        label: "Mar",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 25, frontColor: "#F6D4BA" },
-      {
-        value: 30,
-        label: "Apr",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 20, frontColor: "#F6D4BA" },
-      {
-        value: 60,
-        label: "May",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 40, frontColor: "#F6D4BA" },
-      {
-        value: 65,
-        label: "Jun",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 30, frontColor: "#F6D4BA" },
-    ],
-  
-    "1PM-5PM": [
-      {
-        value: 50,
-        label: "Jan",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-        
-      },
-      { value: 30, frontColor: "#F6D4BA" },
-      {
-        value: 80,
-        label: "Feb",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 70, frontColor: "#F6D4BA" },
-      {
-        value: 25,
-        label: "Mar",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 55, frontColor: "#F6D4BA" },
-      {
-        value: 30,
-        label: "Apr",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 30, frontColor: "#F6D4BA" },
-      {
-        value: 60,
-        label: "May",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 60, frontColor: "#F6D4BA" },
-      {
-        value: 55,
-        label: "Jun",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 30, frontColor: "#F6D4BA" },
-    ],
-
-    "7AM-5PM": [
-      {
-        value: 10,
-        label: "Jan",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-        
-      },
-      { value: 20, frontColor: "#F6D4BA" },
-      {
-        value: 50,
-        label: "Feb",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 40, frontColor: "#F6D4BA" },
-      {
-        value: 75,
-        label: "Mar",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 25, frontColor: "#F6D4BA" },
-      {
-        value: 30,
-        label: "Apr",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 20, frontColor: "#F6D4BA" },
-      {
-        value: 60,
-        label: "May",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 40, frontColor: "#F6D4BA" },
-      {
-        value: 65,
-        label: "Jun",
-        spacing: 2,
-        labelWidth: 30,
-        labelTextStyle: { color: "white" },
-        frontColor: "#132A17",
-      },
-      { value: 30, frontColor: "#F6D4BA" },
-    ],
-  });
-
-  const handleRefresh = () => {
-  const newData = {
-    "7AM-12PM": [
-      {value: Math.random() * 100, label: "Jan", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Feb", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Mar", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Apr", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "May", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      { value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Jun", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      { value: Math.random() * 100, frontColor: "#F6D4BA" },
-    ],
-  
-    "1PM-5PM": [
-      {value: Math.random() * 100, label: "Jan", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Feb", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Mar", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Apr", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "May", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      { value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Jun", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      { value: Math.random() * 100, frontColor: "#F6D4BA" },
-    ],
-      "7AM-5PM": [
-      {value: Math.random() * 100, label: "Jan", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Feb", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Mar", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Apr", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      {value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "May", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      { value: Math.random() * 100, frontColor: "#F6D4BA" },
-      {value: Math.random() * 100, label: "Jun", spacing: 2, labelWidth: 30, labelTextStyle: { color: "white" }, frontColor: "#132A17",},
-      { value: Math.random() * 100, frontColor: "#F6D4BA" },
-    ],
-  };
-  setBarData(newData);  // Update the state with new random data
-};
-  const [selectedTimeRange, setSelectedTimeRange] = useState(null);
 
   const timeRanges = [
     { label: "7 AM - 12 PM", value: "7AM-12PM" },
@@ -291,6 +74,123 @@ const Stats = () => {
     { label: "Full day (7 AM - 5 PM)", value: "7AM-5PM" },
   ];
 
+  const handleDetailsScreen = () => {
+    // Navigate to Details
+    navigation.navigate("Details", {
+      deviceId: userData.deviceId,
+    });
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Replace the URL below with your backend URL
+        const response = await axios.get(
+          `/auth/filter-detections?deviceId=${userData.deviceId}`
+        );
+        console.log("Fetched Data:", response.data.detections);
+        setBarData(response.data.detections);
+      } catch (error) {
+        setError("Failed to load data");
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (userData?.deviceId) {
+      fetchData();
+    }
+  }, [userData.deviceId]);
+
+  const filterDataByTimeRange = (data, range) => {
+    const filteredData = data.filter((detection) => {
+      const [hour, minute, second] = detection.time.split(":").map(Number);
+      if (range === "7AM-12PM") return hour >= 7 && hour <= 12;
+      if (range === "1PM-5PM") return hour >= 13 && hour < 17;
+      return hour >= 7 && hour < 17;
+    });
+    return filteredData;
+  };
+
+  const processChartData = (barData) => {
+    const sortedData = [...barData].sort((a, b) => {
+      const dateTimeA = new Date(`${a.date}T${a.time}`);
+      const dateTimeB = new Date(`${b.date}T${b.time}`);
+      return dateTimeA - dateTimeB;
+    });
+
+    const groupedData = {};
+
+    sortedData.forEach((detection) => {
+      const dateTime = new Date(`${detection.date}T${detection.time}`);
+      const hour = dateTime.getHours();
+      const label = `${hour % 12 || 12} ${hour >= 12 ? "PM" : "AM"}`;
+
+      if (!groupedData[label]) {
+        groupedData[label] = { label, bugs: 0, panicles: 0 };
+      }
+
+      groupedData[label].bugs += detection.numberOfBugs;
+      groupedData[label].panicles += detection.numberOfPanicles;
+    });
+
+    return Object.values(groupedData);
+  };
+
+  useEffect(() => {
+    if (barData.length > 0) {
+      const filteredData = filterDataByTimeRange(barData, selectedTimeRange);
+      const processedData = processChartData(filteredData);
+      setChartData(processedData);
+    }
+  }, [barData, selectedTimeRange]);
+
+  const groupedBarData = chartData.flatMap((data) => {
+    return [
+      {
+        value: data.panicles,
+        frontColor: "#132A17",
+        spacing: 1,
+      },
+      {
+        value: data.bugs,
+        frontColor: "#F6D4BA",
+        label: `${data.label}`,
+      },
+    ];
+  });
+
+  const maxChartValue = Math.max(...groupedBarData.map((item) => item.value));
+
+  const handleRefresh = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Re-fetch the data from the backend
+      const response = await axios.get(
+        `/auth/filter-detections?deviceId=${userData.deviceId}`
+      );
+      console.log("Refreshed Data:", response.data.detections);
+      const newBarData = response.data.detections;
+
+      setSelectedTimeRange("7 AM - 12 PM");
+      setBarData(newBarData);
+
+      // Process and update the chart data based on the selected time range
+      const filteredData = filterDataByTimeRange(newBarData, selectedTimeRange);
+      const processedData = processChartData(filteredData);
+      setChartData(processedData);
+    } catch (error) {
+      setError("Failed to refresh data");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const renderTitle = () => {
     return (
@@ -314,7 +214,6 @@ const Stats = () => {
     );
   };
 
-
   return (
     <View style={styles.statistics}>
       <View style={styles.statisticsChild} />
@@ -324,12 +223,12 @@ const Stats = () => {
       <View style={[styles.statisticsChild47, styles.statisticsLayout]} />
 
       <View style={styles.dropdownContainer}>
-      <RNPickerSelect
-      onValueChange={(value) => setSelectedTimeRange(value)}
-      items={timeRanges}
-      value={selectedTimeRange}
-      style={pickerSelectStyles}
-      placeholder={{ label: "Select a time range", value: null }}
+        <RNPickerSelect
+          onValueChange={(value) => setSelectedTimeRange(value)}
+          items={timeRanges}
+          value={selectedTimeRange}
+          style={pickerSelectStyles}
+          placeholder={{ label: "Select a time range", value: null }}
         />
       </View>
 
@@ -337,28 +236,28 @@ const Stats = () => {
         style={[styles.homeIcon, styles.iconPosition]}
         onPress={() => navigation.navigate("HomeScreen")}
       >
-        <Icon name="home" size={35} color="#132A17" />{" "}
+        <Icon name="home" size={35} color="#132A17" />
       </Pressable>
 
       <Pressable
         style={[styles.vectorIconPNG]}
         onPress={() => navigation.navigate("HomeScreen")}
       >
-        <Icon name="arrow-left" size={35} color="#132A17" />{" "}
+        <Icon name="arrow-left" size={35} color="#132A17" />
       </Pressable>
 
       <Pressable
         style={[styles.vectorIcon2, styles.iconPosition]}
         onPress={() => navigation.navigate("AboutUsScreen")}
       >
-        <Icon name="feed-person" size={35} color="#132A17" />{" "}
+        <Icon name="feed-person" size={35} color="#132A17" />
       </Pressable>
 
       <Pressable
         style={[styles.controlIcon, styles.vectorIconLayout]}
-        onPress={() => navigation.navigate("ControlOff")}
+        onPress={() => navigation.navigate("Add Device")}
       >
-        <Icon name="plus-circle" size={35} color="#132A17" />{" "}
+        <Icon name="plus-circle" size={35} color="#132A17" />
       </Pressable>
 
       <Icon
@@ -368,33 +267,33 @@ const Stats = () => {
         style={[styles.vectorIcon9, styles.vectorIconLayout]}
       />
 
-      {selectedTimeRange && (
-        <View style={styles.container}>
-          {renderTitle()}
-          <BarChart
-            data={barData[selectedTimeRange]}
-            barWidth={9}
-            spacing={37}
-            roundedTop
-            roundedBottom
-            hideRules
-            xAxisThickness={0}
-            yAxisThickness={0}
-            yAxisTextStyle={{ color: "#F9E2D0" }}
-            noOfSections={4}
-            maxValue={75}
-            showValuesAsTopLabel
-            topLabelTextStyle={{ fontSize: 8 }}
-          />
-        </View>
-      )}
+      <View style={styles.container}>
+        {renderTitle()}
+        {console.log(groupedBarData)}
+        <BarChart
+          data={groupedBarData}
+          barWidth={15}
+          spacing={35}
+          roundedTop
+          roundedBottom
+          hideRules
+          xAxisThickness={0}
+          yAxisTextStyle={{ color: "#F9E2D0" }}
+          xAxisLabelTextStyle={{ color: "#F9E2D0" }}
+          noOfSections={3}
+          maxValue={maxChartValue + 2}
+          showValuesAsTopLabel
+          topLabelTextStyle={{ fontSize: 12 }}
+          isAnimated={true}
+        />
+      </View>
 
       <Pressable
         style={({ pressed }) => [
           styles.buttonContainer,
-          { backgroundColor: pressed ? "#0d1f11" : "#3A7D44" }, 
+          { backgroundColor: pressed ? "#0d1f11" : "#3A7D44" },
         ]}
-        onPress={handleGetStartedPress}
+        onPress={handleDetailsScreen}
       >
         <Text style={styles.buttonText}>View Details</Text>
       </Pressable>
@@ -534,13 +433,13 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     fontFamily: "Poppins-Bold",
-    color: "#fff", 
+    color: "#fff",
     fontWeight: "bold",
     left: 20,
     top: 5,
   },
   buttonContainer: {
-    backgroundColor: "#3A7D44",  
+    backgroundColor: "#3A7D44",
     borderRadius: 30,
     elevation: 3,
     top: 0,
@@ -551,7 +450,7 @@ const styles = StyleSheet.create({
     top: 580,
   },
   dropdownContainer: {
-    backgroundColor: '#F9E2D0',
+    backgroundColor: "#F9E2D0",
   },
   container: {
     backgroundColor: "#3A7D44",
@@ -562,6 +461,7 @@ const styles = StyleSheet.create({
     left: 5,
     position: "fixed",
     elevation: 3,
+    alignSelf: "center",
   },
   titleContainer: {
     marginVertical: 30,
