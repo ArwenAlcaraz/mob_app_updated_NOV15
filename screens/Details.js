@@ -1,56 +1,75 @@
-import * as React from "react";
-import { StyleSheet, View, Text, Pressable, ActivityIndicator, Button, Alert } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  ActivityIndicator,
+  Button,
+  Alert,
+  Modal,
+  TouchableOpacity,
+} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { FontSize, FontFamily, Border, Color } from "../GlobalStyles";
-import axios from 'axios';
-import * as FileSystem from 'expo-file-system';
-import Icon from 'react-native-vector-icons/Ionicons';
+import axios from "axios";
+import Icon from "react-native-vector-icons/FontAwesome";
+import "regenerator-runtime/runtime";
+import Constants from "expo-constants";
 
-const Details = () => {
+const Details = ({ route }) => {
   const navigation = useNavigation();
-  const [isPressed, setIsPressed] = React.useState(false);
-  const [imageUrl, setImageUrl] = React.useState(null);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [detections, setDetections] = React.useState([]);
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-
-  const [detectionInfo, setDetectionInfo] = React.useState({
+  const { deviceId } = route.params;
+  const [imageUrl, setImageUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [detections, setDetections] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [detectionInfo, setDetectionInfo] = useState({
     numberOfBugs: 0,
     bugsConfidenceScore: 0,
     numberOfPanicles: 0,
     paniclesConfidenceScore: 0,
-    timestamp: "",  // New field for the timestamp
+    date: "N/A",
+    time: "N/A",
   });
 
-  React.useEffect(() => {
-    axios.get("https://production-myentobackend.onrender.com/api/v1/auth/get-all-results")
-      .then(response => {
-        if (response.data && response.data.imageUrl) {
-          setImageUrl(response.data.imageUrl);
-        } else {
-          console.log("No image URL found in response");
-        }
-        const detections = response.data.detections || [];
-        setDetections(detections);
-        if (detections.length > 0) {
-          const latestDetection = detections[0];
-          setDetectionInfo({
-            numberOfBugs: latestDetection.numberOfBugs,
-            bugsConfidenceScore: latestDetection.bugsConfidenceScore,
-            numberOfPanicles: latestDetection.numberOfPanicles,
-            paniclesConfidenceScore: latestDetection.paniclesConfidenceScore,
-            timestamp: latestDetection.timestamp || "No timestamp",  // Assign timestamp if available
+  useEffect(() => {
+    const fetchDetectionData = async () => {
+      try {
+        const response = await axios.get(
+          `/auth/filter-detections?deviceId=${deviceId}`
+        );
+        const data = response.data.detections;
+        if (response.data.success) {
+          const sortedData = data.sort((a, b) => {
+            const dateA = new Date(`${a.date} ${a.time}`);
+            const dateB = new Date(`${b.date} ${b.time}`);
+            return dateA - dateB;
           });
+          setDetections(sortedData);
+          setDetectionInfo({
+            numberOfBugs: sortedData[0].numberOfBugs,
+            bugsConfidenceScore: sortedData[0].bugsConfidenceScore,
+            numberOfPanicles: sortedData[0].numberOfPanicles,
+            paniclesConfidenceScore: sortedData[0].paniclesConfidenceScore,
+            date: sortedData[0].date,
+            time: sortedData[0].time,
+          });
+        } else {
+          Alert.alert("Error", "Failed to load detection data.");
         }
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      })
-      .finally(() => {
+      } catch (error) {
+        console.error("Error fetching detection data", error);
+        Alert.alert("Error", "Failed to load detection data.");
+      } finally {
         setIsLoading(false);
-      });
+      }
+    };
+
+    fetchDetectionData();
   }, []);
 
   const [fontsLoaded] = useFonts({
@@ -58,7 +77,13 @@ const Details = () => {
   });
 
   if (!fontsLoaded || isLoading) {
-    return <ActivityIndicator size="large" color={Color.colorBlack} style={styles.loading} />;
+    return (
+      <ActivityIndicator
+        size="large"
+        color={Color.colorBlack}
+        style={styles.loading}
+      />
+    );
   }
 
   const showPreviousDetection = () => {
@@ -71,10 +96,14 @@ const Details = () => {
         bugsConfidenceScore: prevDetection.bugsConfidenceScore,
         numberOfPanicles: prevDetection.numberOfPanicles,
         paniclesConfidenceScore: prevDetection.paniclesConfidenceScore,
-        timestamp: prevDetection.timestamp || "No timestamp",  // Assign timestamp if available
+        date: prevDetection.date,
+        time: prevDetection.time,
       });
     } else {
-      Alert.alert("No Previous Results", "You are already at the first detection.");
+      Alert.alert(
+        "No Previous Results",
+        "You are already at the first detection."
+      );
     }
   };
 
@@ -88,224 +117,305 @@ const Details = () => {
         bugsConfidenceScore: nextDetection.bugsConfidenceScore,
         numberOfPanicles: nextDetection.numberOfPanicles,
         paniclesConfidenceScore: nextDetection.paniclesConfidenceScore,
-        timestamp: nextDetection.timestamp || "No timestamp",  // Assign timestamp if available
+        date: nextDetection.date,
+        time: nextDetection.time,
       });
     } else {
       Alert.alert("No Next Results", "You are already at the last detection.");
     }
   };
 
-  const handleDownload = async () => {
-    if (!imageUrl) {
-      Alert.alert("No Image", "There is no image to download.");
-      return;
-    }
-
-    try {
-      const fileUri = FileSystem.documentDirectory + "downloadedImage.jpg";
-      const downloadResumable = FileSystem.createDownloadResumable(
-        imageUrl,
-        fileUri,
-      );
-
-      const { uri } = await downloadResumable.downloadAsync();
-      Alert.alert("Download Complete", "Image downloaded to: " + uri);
-    } catch (error) {
-      console.error("Download error:", error);
-      Alert.alert("Error", "There was an error downloading the image.");
-    }
-  };
-
   const showLatestDetection = () => {
     if (detections.length > 0) {
-      const latestDetection = detections[0];
+      const latestDetection = detections[detections.length - 1];
+      console.log(detections);
       setDetectionInfo({
         numberOfBugs: latestDetection.numberOfBugs,
         bugsConfidenceScore: latestDetection.bugsConfidenceScore,
         numberOfPanicles: latestDetection.numberOfPanicles,
         paniclesConfidenceScore: latestDetection.paniclesConfidenceScore,
-        timestamp: latestDetection.timestamp || "No timestamp",  // Assign timestamp if available
+        date: latestDetection.date,
+        time: latestDetection.time,
       });
     }
   };
 
+  const showSummary = () => {
+    return detectionInfo.numberOfBugs === 0
+      ? "NO BUGS FOUND! THE DEVICE IS EFFECTIVELY MANAGING ITS TASKS."
+      : "!!BUGS HAVE BEEN DETECTED!! ALLOW THE DEVICE TO RUN FOR EFFICIENT EXECUTION AND AUTOMATIC RESOLUTION.";
+  };
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
   return (
     <View style={styles.aboutUsScreen}>
-      <View style={[styles.aboutUsScreenChild, styles.aboutChildPosition]} />
-      <Text style={[styles.about, styles.teamTypo]}>Details</Text>
-      <Pressable style={styles.vectorIconPNG} onPress={() => navigation.navigate("Stats")}>
-        <Image style={styles.vectorIconPNG} contentFit="cover" source={require("../assets/vector7.png")} />
-      </Pressable>
-      <Image style={[styles.more3Icon, styles.iconLayout]} contentFit="cover" source={require("../assets/more-3.png")} />
-      
-      {/* Conditionally Render the Image */}
-      <Image 
-        style={styles.fetchedImage} 
-        contentFit="cover" 
-        source={imageUrl ? { uri: imageUrl } : require("../assets/sample-image.png")} 
-      />
-
-      {imageUrl && (
-        <View style={styles.buttonContainer}>
-          <Button title="Download Image" onPress={handleDownload} color="#3A7D44" />
-        </View>
-      )}
-
-      <View style={styles.infoContainer}>
-        <Text style={styles.infoText}>
-          Bugs Detected: {detectionInfo.numberOfBugs}
-        </Text>
-        <Text style={styles.infoText}>
-          Bugs Confidence: {detectionInfo.bugsConfidenceScore.toFixed(2)}%
-        </Text>
-        <Text style={styles.infoText}>
-          Panicles Detected: {detectionInfo.numberOfPanicles}
-        </Text>
-        <Text style={styles.infoText}>
-          Panicles Confidence: {detectionInfo.paniclesConfidenceScore.toFixed(2)}%
-        </Text>
-        <Text style={styles.infoText}>
-          Timestamp: {new Date(detectionInfo.timestamp).toLocaleString()} {/* Display formatted timestamp */}
-        </Text>
+      <View style={styles.header}>
+        <Pressable style={styles.iconLeft} onPress={() => navigation.goBack()}>
+          <Icon name="chevron-left" size={30} color="#132A17" />
+        </Pressable>
+        <Text style={styles.title}>DETAILS</Text>
       </View>
 
-      {/* Left Arrow Button to Show Previous Detection */}
-      <Pressable style={styles.arrowButton} onPress={showPreviousDetection}>
-        <Icon name="arrow-back" size={30} color="#fff" />
-      </Pressable>
+      <View style={styles.contentContainer}>
+        <View style={styles.container}>
+          <Image
+            source={
+              imageUrl
+                ? { uri: imageUrl }
+                : require("../assets/sample-image.png")
+            }
+            style={styles.image}
+          />
+          <View style={styles.dateTimeSection}>
+            <View style={styles.dateTimeRow}>
+              <Text style={styles.labelText}>Date Created</Text>
+              <Text style={styles.labelText}>Time Created</Text>
+            </View>
+            <View style={styles.dateTimeRow}>
+              <Text style={styles.valueText}>{detectionInfo.date}</Text>
+              <Text style={styles.valueText}>{detectionInfo.time}</Text>
+            </View>
+          </View>
 
-      {/* Right Arrow Button to Show Next Detection */}
-      <Pressable style={styles.rightArrow} onPress={showNextDetection}>
-        <Icon name="arrow-forward" size={30} color="#fff" />
-      </Pressable>
+          <Text style={styles.text}>More details of the report:</Text>
+          <View style={styles.reportContainer}>
+            <View style={styles.reportRow}>
+              <Icon name="bug" size={20} style={styles.icon} />
+              <Text>
+                Bugs Detected:{" "}
+                <Text style={styles.valueText}>
+                  {detectionInfo.numberOfBugs}
+                </Text>
+              </Text>
+            </View>
+            <View style={styles.reportRow}>
+              <Icon name="bar-chart" size={20} style={styles.icon} />
+              <Text>
+                Average Confidence Score (Bugs):{" "}
+                <Text style={styles.valueText}>
+                  {detectionInfo.bugsConfidenceScore * 100} %
+                </Text>
+              </Text>
+            </View>
+            <View style={styles.reportRow}>
+              <Icon name="leaf" size={20} style={styles.icon} />
+              <Text>
+                Panicles Detected:{" "}
+                <Text style={styles.valueText}>
+                  {detectionInfo.numberOfPanicles}
+                </Text>
+              </Text>
+            </View>
+            <View style={styles.reportRow}>
+              <Icon name="bar-chart" size={20} style={styles.icon} />
+              <Text>
+                Average Confidence Score (Panicles):{" "}
+                <Text style={styles.valueText}>
+                  {detectionInfo.paniclesConfidenceScore * 100} %
+                </Text>
+              </Text>
+            </View>
+          </View>
+          <View style={styles.iconRow}>
+            <Pressable onPress={showPreviousDetection}>
+              <Icon name="arrow-left" size={30} style={styles.icon} />
+            </Pressable>
+            <Pressable onPress={showLatestDetection}>
+              <Icon name="refresh" size={30} style={styles.icon} />
+            </Pressable>
+            <Pressable onPress={showNextDetection}>
+              <Icon name="arrow-right" size={30} style={styles.icon} />
+            </Pressable>
+          </View>
 
-      {/* Square Button to Display Current Detection */}
-      <Pressable style={styles.squareButton} onPress={showLatestDetection}>
-        <Text style={styles.squareButtonText}>Latest Detection</Text>
-      </Pressable>
+          <View style={styles.buttonsContainer}>
+            <Pressable onPress={toggleModal} style={styles.button}>
+              <Text style={styles.buttonText}>Download Image</Text>
+            </Pressable>
+
+            <Pressable onPress={toggleModal} style={styles.button}>
+              <Text style={styles.buttonText}>Suggested Actions</Text>
+            </Pressable>
+          </View>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={isModalVisible}
+            onRequestClose={isModalVisible}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalText}>
+                  Suggested actions for farmers:
+                </Text>
+                <Text style={styles.modalText}>
+                  For {detectionInfo.numberOfBugs} bugs detected, you should use
+                  pest control measures.
+                </Text>
+                <Text style={styles.modalText}>
+                  For {detectionInfo.numberOfPanicles} panicles, ensure proper
+                  irrigation and growth conditions.
+                </Text>
+                <Pressable
+                  onPress={() => setIsModalVisible(false)}
+                  style={styles.closeButton}
+                >
+                  <Text style={styles.closeButtonText}>Close</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  arrowButton: {
-    position: "absolute",
-    top: 460,
-    left: 60,
-    padding: 10,
-    backgroundColor: "#3A7D44",
-    borderRadius: 30,
-  },
-  rightArrow: {
-    position: "absolute",
-    top: 460,
-    right: 60,
-    padding: 10,
-    backgroundColor: "#3A7D44",
-    borderRadius: 30,
-  },
-  squareButton: {
-    position: "absolute",
-    top: 460,
-    left: 150,
-    width: 60,
-    height: 55,
-    backgroundColor: "#3A7D44",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-  },
-  squareButtonText: {
-    color: "#fff",
-    fontSize: 10,
-    fontFamily: "Poppins-Bold",
-    textAlign: "center",
-  },
-  aboutChildPosition: {
-    borderRadius: Border.br_xl,
-    left: "0%",
-    right: "0%",
-    position: "absolute",
-    width: "100%",
-  },
-  vectorIconPNG: {
-    height: "15.47%",
-    width: "25.53%",
-    top: "7.28%",
-    right: "86.81%",
-    bottom: "93.25%",
-    left: "3.67%",
-    position: "absolute",
-    overflow: "hidden",
-  },
-  aboutUsScreenChild: {
-    height: "15.78%",
-    top: "-3.44%",
-    bottom: "87.66%",
-    backgroundColor: "#F9E2D0",
-  },
-  about: {
-    height: "8.53%",
-    width: "40.28%",
-    top: "7%",   // Use a fixed top value for placement
-    left: "38.5%",
-    fontSize: 25,
-    fontFamily: 'Poppins-SemiBold',
-    color: Color.colorBlack,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 2,
-    position: "absolute", 
-  },
   aboutUsScreen: {
-    backgroundColor: Color.colorMediumseagreen,
+    backgroundColor: "#69b578",
     flex: 1,
-    height: "100%",
-    overflow: "hidden",
     width: "100%",
-    justifyContent: "center",
+  },
+  header: {
+    flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "#F9E2D0",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: Border.br_xl,
+    paddingTop: Constants.statusBarHeight,
   },
-  buttonContainer: {
-    marginTop: 120,
-    width: 200,
-
+  iconLeft: {
+    padding: 10,
   },
-  fetchedImage: {
+  title: {
+    fontSize: 25,
+    fontFamily: "Poppins-SemiBold",
+    color: "#132A17",
+    position: "absolute",
+    left: "50%",
+    transform: [{ translateX: -25 }, { translateY: 20 }],
+  },
+  contentContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "baseline",
+    padding: 30,
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    padding: 10,
+  },
+  image: {
     width: 300,
     height: 300,
-    borderRadius: 10,
-    marginTop: 20,
+    borderRadius: 5,
   },
-  loading: {
+  dateTimeSection: {
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 5,
+    width: "90%", // Adjust the width to center content
+  },
+  dateTimeRow: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 5,
+    marginRight: 20,
+  },
+  labelText: {
+    fontSize: 16,
+    color: "#3a573f",
+    textAlign: "center",
+    justifyContent: "center",
+    letterSpacing: 2,
+  },
+  valueText: {
+    fontSize: 16,
+    color: "#333333",
+    fontWeight: "bold",
+  },
+  text: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  reportContainer: {
+    backgroundColor: "#c7d6ca",
+    padding: 10,
+    borderRadius: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 4,
+  },
+  reportRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  icon: {
+    marginRight: 10,
+  },
+  iconRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "80%",
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  button: {
+    backgroundColor: "#4CAF50",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    margin: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 4,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  errorMessage: {
-    fontSize: 18,
-    color: "red",
-    textAlign: "center",
-    marginTop: 20,
-  },
-  infoContainer: {
-    backgroundColor: '#f1f1f1',
-    padding: 15,
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
     borderRadius: 10,
-    elevation: 3,
-    marginTop: 20,
-    width: '90%',
-    alignItems: 'flex-start',
-    top: 70,
-    left: 2,
-    position: 'fixed',
+    width: "80%",
+    alignItems: "center",
   },
-  infoText: {
-    fontSize: 14,
-    marginBottom: 5,
-    fontFamily: "Poppins-Bold",
-    textAlign: "left",
-    left: 55,
+  modalText: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  closeButton: {
+    backgroundColor: "#f44336",
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
 

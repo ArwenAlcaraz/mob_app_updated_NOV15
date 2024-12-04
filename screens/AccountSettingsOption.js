@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Border, Color, FontSize, FontFamily } from "../GlobalStyles";
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const AccountSettingsOption = () => {
   const navigation = useNavigation();
@@ -10,15 +11,12 @@ const AccountSettingsOption = () => {
   return (
     <View style={styles.accountSettingsOption2}>
       <Pressable
-        style={styles.vectorIcon}
-        onPress={() => navigation.navigate("LeftPanel")}
+        style={[styles.arrowleft]}
+        onPress={() => navigation.navigate("HomeScreen")}
       >
-        <Image
-          style={styles.vectorIcon}
-          contentFit="cover"
-          source={require("../assets/vector7.png")}
-        />
+        <Icon name="arrow-back" size={25} color="#132A17" />
       </Pressable>
+      
       <Text style={styles.username}>USERNAME</Text>
       <View
         style={[styles.accountSettingsOption2Child, styles.accountLayout1]}
@@ -28,48 +26,25 @@ const AccountSettingsOption = () => {
       />
       <Text style={[styles.userInfo, styles.accountTypo]}>USER INFO</Text>
       <Text style={[styles.account, styles.accountTypo]}>ACCOUNT</Text>
-      <Image
-        style={[styles.layer7Icon, styles.vectorIconLayout]}
-        contentFit="cover"
-        source={require("../assets/layer-7.png")}
+      <Icon
+        name="person-circle"
+        size={95}
+        color="#132A17"
+        style={[styles.profile]}
       />
       <Text style={[styles.username1, styles.emailTypo]}>USERNAME</Text>
-      <Text style={[styles.email, styles.emailTypo]}>EMAIL</Text>
+      <Icon
+        name="mail"
+        size={35}
+        color="#132A17"
+        style={[styles.usernameIcon]}
+      />
       <Text style={[styles.password, styles.emailTypo]}>PASSWORD</Text>
-      <Image
-        style={[styles.vectorIcon1, styles.vectorIconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector8.png")}
-      />
-      <Image
-        style={[styles.vectorIcon2, styles.vectorIconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector2.png")}
-      />
-      <Image
-        style={[styles.vectorIcon3, styles.vectorIconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector10.png")}
-      />
-      <Image
-        style={[styles.vectorIcon4, styles.vectorIconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector_4.png")}
-      />
-      <Image
-        style={[styles.accountSettingsOption2Inner, styles.accountLayout]}
-        contentFit="cover"
-        source={require("../assets/line-48.png")}
-      />
-      <Image
-        style={styles.lineIcon}
-        contentFit="cover"
-        source={require("../assets/line-48.png")}
-      />
-      <Image
-        style={[styles.accountSettingsOption2Child1, styles.accountLayout]}
-        contentFit="cover"
-        source={require("../assets/line-48.png")}
+      <Icon
+        name="lock-closed"
+        size={35}
+        color="#132A17"
+        style={[styles.passwordIcon]}
       />
       <Pressable
         style={styles.rectanglePressable}
@@ -78,22 +53,11 @@ const AccountSettingsOption = () => {
       <Text style={[styles.editUserInfo, styles.emailTypo]}>
         EDIT USER INFO
       </Text>
-      <Image
-        style={[styles.vectorIcon5, styles.vectorIconLayout]}
-        contentFit="cover"
-        source={require("../assets/vector_5.png")}
-      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  vectorIconLayout: {
-    maxHeight: "100%",
-    maxWidth: "100%",
-    position: "absolute",
-    overflow: "hidden",
-  },
   accountLayout1: {
     borderRadius: Border.br_xl,
     position: "absolute",
@@ -110,7 +74,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   emailTypo: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
     fontWeight: "600",
     textAlign: "center",
     position: "absolute",
@@ -126,7 +90,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  vectorIcon: {
+  arrowleft: {
     height: "15.47%",
     width: "25.53%",
     top: "7.28%",
@@ -134,7 +98,7 @@ const styles = StyleSheet.create({
     bottom: "93.25%",
     left: "3.67%",
     position: "absolute",
-    overflow: "hidden"
+    overflow: "hidden",
   },
   username: {
     height: "4.53%",
@@ -181,7 +145,7 @@ const styles = StyleSheet.create({
   account: {
     left: "56.39%",
   },
-  layer7Icon: {
+  profile: {
     height: "13.91%",
     width: "31.89%",
     top: "18.44%",
@@ -210,55 +174,26 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: Color.colorBlack,
   },
-  vectorIcon1: {
-    height: "4.89%",
-    width: "9.22%",
-    top: "69.03%",
-    right: "78.06%",
-    bottom: "28.28%",
-    left: "14.72%",
+  usernameIcon: {
+    height: "13.91%",
+    width: "31.89%",
+    top: "36.44%",
+    right: "38.06%",
+    bottom: "68.75%",
+    left: "12.06%",
   },
-  vectorIcon2: {
-    height: "1.47%",
-    width: "3.22%",
-    top: "51.81%",
-    right: "82.56%",
-    bottom: "46.72%",
-    left: "15.22%",
-  },
-  vectorIcon3: {
-    height: "3.61%",
-    width: "11.14%",
-    top: "50.86%",
-    right: "77.97%",
-    bottom: "45.53%",
-    left: "13.89%",
-  },
-  vectorIcon4: {
-    height: "1.91%",
-    width: "6.56%",
-    top: "50%",
-    right: "80.25%",
-    bottom: "48.69%",
-    left: "16.19%",
+  passwordIcon: {
+    height: "13.91%",
+    width: "35.89%",
+    top: "39.44%",
+    right: "38.06%",
+    bottom: "68.75%",
+    left: "12.06%",
   },
   accountSettingsOption2Inner: {
     top: "57.34%",
     bottom: "42.5%",
     opacity: 30,
-  },
-  lineIcon: {
-    top: "66.36%",
-    right: "10.58%",
-    bottom: "33.48%",
-    left: "26.64%",
-    width: "62.78%",
-    height: "0.16%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-    position: "absolute",
-    overflow: "hidden",
-    opacity: 28,
   },
   accountSettingsOption2Child1: {
     top: "74.84%",
@@ -280,14 +215,6 @@ const styles = StyleSheet.create({
     left: "28.22%",
     fontSize: 16,
     color: "white",
-  },
-  vectorIcon5: {
-    height: "3.44%",
-    width: "10.06%",
-    top: "60.47%",
-    right: "77.5%",
-    bottom: "36.09%",
-    left: "14.44%",
   },
   accountSettingsOption2: {
     backgroundColor: Color.colorMediumseagreen,

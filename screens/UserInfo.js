@@ -2,36 +2,30 @@ import * as React from "react";
 import { Image, StyleSheet, View, Text, Pressable, TextInput } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontSize, Color, Border, FontFamily } from "../GlobalStyles";
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const UserInfo = () => {
   const navigation = useNavigation();
 
   // State to hold user input values
   const [username, setUsername] = React.useState("");
-  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   return (
     <View style={styles.userInfo}>
       <Pressable
-        style={styles.vectorIcon}
+        style={[styles.arrowleft]}
         onPress={() => navigation.navigate("AccountSettingsOption")}
       >
-        <Image
-          style={styles.vectorIcon}
-          contentFit="cover"
-          source={require("../assets/vector7.png")}
-        />
+        <Icon name="arrow-back" size={25} color="#132A17" />
       </Pressable>
       <View style={styles.userInfoChild} />
       <Text style={[styles.editUserInfoItem, styles.editUserInfoTypo]}>
         EDIT USER INFO
       </Text>
       <View style={[styles.userInfoItem, styles.userShadowBox]} />
-      <View style={[styles.userInfoInner, styles.userShadowBox]} />
       <View style={[styles.rectangleView, styles.userShadowBox]} />
       <Text style={[styles.username, styles.emailTypo]}>USERNAME</Text>
-      <Text style={[styles.email, styles.emailTypo]}>EMAIL</Text>
       <Text style={[styles.password, styles.emailTypo]}>PASSWORD</Text>
       <View style={styles.userInfoChild1} />
       <TextInput
@@ -39,12 +33,6 @@ const UserInfo = () => {
         placeholder="Enter Username"
         value={username}
         onChangeText={setUsername}
-      />
-      <TextInput
-        style={[styles.userInfoInner, styles.userShadowBox]}
-        placeholder="Enter Email"
-        value={email}
-        onChangeText={setEmail}
       />
       <TextInput
         style={[styles.rectangleView, styles.userShadowBox]}
@@ -107,15 +95,13 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
   },
-  vectorIcon: {
+  arrowleft: {
     height: "15.47%",
     width: "25.53%",
     top: "7.28%",
     right: "86.81%",
     bottom: "93.25%",
     left: "3.67%",
-    maxWidth: "100%",
-    maxHeight: "100%",
     position: "absolute",
     overflow: "hidden",
   },
@@ -166,12 +152,6 @@ const styles = StyleSheet.create({
   userInfoItem: {
     top: "34.84%",
     bottom: "63.91%",
-    fontSize: FontSize.size_mini,
-    height: "3.59%",
-  },
-  userInfoInner: {
-    top: "47.81%",
-    bottom: "50.94%",
     fontSize: FontSize.size_mini,
     height: "3.59%",
   },
