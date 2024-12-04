@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  TouchableOpacity,
-} from "react-native";
+import {StyleSheet,Text,View,Pressable,TouchableOpacity,} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Image } from "expo-image";
 import { Border, Color, FontFamily, FontSize } from "../../GlobalStyles";
@@ -17,7 +11,7 @@ const AboutUsScreenTeam = () => {
   return (
     <View style={styles.aboutUsScreenTeam}>
       <View style={[styles.aboutUsScreenTeamChild, styles.aboutLayout]} />
-      <Text style={[styles.team, styles.teamTypo]}>TEAM</Text>
+      <Text style={[styles.teamText]}>TEAM</Text>
       <View style={styles.button}>
         <Image
           style={[styles.buttonChild, styles.buttonChildLayout]}
@@ -25,7 +19,7 @@ const AboutUsScreenTeam = () => {
           source={require("../../assets/rectangle-1.png")}
         />
       </View>
-      <Text style={[styles.ourTeamIsTypo]}>
+      <Text style={[styles.teamDescription]}>
         Our team is composed of four members: Aaron, Dhan, Arwen and Andrew.
         With diverse expertise in Intelligent Systems (Arwen and Andrew), System
         Administration (Aaron), and Data Science (Dhan), we believe that our
@@ -38,35 +32,35 @@ const AboutUsScreenTeam = () => {
         style={[styles.homeIcon]}
         onPress={() => navigation.navigate("HomeScreen")}
       >
-        <Icon name="home" size={35} color="#132A17" />{" "}
+        <Icon name="home" size={35} color="#132A17" />
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIconPNG]}
+        style={[styles.arrowleft]}
         onPress={() => navigation.navigate("AboutUsScreen")}
       >
-        <Icon name="arrow-left" size={35} color="#132A17" />{" "}
+        <Icon name="arrow-left" size={35} color="#132A17" />
       </Pressable>
 
       <Icon
         name="feed-person"
         size={35}
         color="#3A7D44"
-        style={[styles.vectorIcon2]}
+        style={[styles.information]}
       />
 
       <Pressable
         style={[styles.controlIcon]}
         onPress={() => navigation.navigate("ControlOff")}
       >
-        <Icon name="plus-circle" size={35} color="#132A17" />{" "}
+        <Icon name="plus-circle" size={35} color="#132A17" />
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIcon9]}
+        style={[styles.graphIcon]}
         onPress={() => navigation.navigate("Stats")}
       >
-        <Icon name="graph" size={32} color="#132A17" />{" "}
+        <Icon name="graph" size={32} color="#132A17" />
       </Pressable>
     </View>
   );
@@ -78,28 +72,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
   },
-  teamTypo: {
-    textAlign: "center",
-    color: Color.colorBlack,
-    fontFamily: "Poppins-SemiBold",
-    fontWeight: "600",
-    position: "absolute",
-  },
   buttonChildLayout: {
     maxHeight: "100%",
     maxWidth: "100%",
     position: "absolute",
     overflow: "hidden",
   },
-  getPosition: {
-    display: "none",
-    fontSize: FontSize.size_lg,
-    left: "20%",
-    top: "26.14%",
-    width: "60.38%",
-    height: "49.24%",
-  },
-  ourTeamIsTypo: {
+  teamDescription: {
     top: "50.23%",
     color: "#F9E2D0",
     textAlign: "center",
@@ -111,20 +90,6 @@ const styles = StyleSheet.create({
     textShadowRadius: 3,
     left: "-0.50%",
   },
-  iconPosition1: {
-    top: "91.09%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-    position: "absolute",
-    overflow: "hidden",
-  },
-  iconPosition: {
-    top: "90.78%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-    position: "absolute",
-    overflow: "hidden",
-  },
   aboutUsScreenTeamChild: {
     height: "15.78%",
     top: "-2.5%",
@@ -133,7 +98,7 @@ const styles = StyleSheet.create({
     left: "0%",
     right: "0%",
   },
-  team: {
+  teamText: {
     height: "4.53%",
     width: "25.28%",
     top: "7.41%",
@@ -143,6 +108,11 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
     letterSpacing: 2,
+    textAlign: "center",
+    color: Color.colorBlack,
+    fontFamily: "Poppins-SemiBold",
+    fontWeight: "600",
+    position: "absolute",
   },
   buttonChild: {
     height: "100%",
@@ -155,21 +125,6 @@ const styles = StyleSheet.create({
     maxHeight: "100%",
     maxWidth: "100%",
     position: "absolute",
-  },
-  getStarted: {
-    textAlign: "center",
-    color: Color.colorBlack,
-    fontFamily: "Poppins-SemiBold",
-    fontWeight: "600",
-    position: "absolute",
-  },
-  getStarted1: {
-    display: "none",
-    fontSize: FontSize.size_lg,
-    left: "20%",
-    top: "26.14%",
-    width: "60.38%",
-    height: "49.24%",
   },
   button: {
     height: "30.78%",
@@ -188,21 +143,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     position: "absolute",
   },
-  ourTeamIs: {
-    height: "37.5%",
-    width: "92.22%",
-    top: "50%",
-    left: "5.56%",
-    fontSize: 15,
-  },
-  vectorIcon: {
-    height: "4.22%",
-    width: "13.83%",
-    right: "6.11%",
-    bottom: "4.69%",
-    left: "80.06%",
-  },
-  vectorIconPNG: {
+  arrowleft: {
     height: "15.47%",
     width: "25.53%",
     top: "7.28%",
@@ -212,11 +153,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  vectorIcon1: {
-    right: "51.94%",
-    left: "46.39%",
-  },
-  vectorIcon2: {
+  information: {
     height: "13.42%",
     right: "5.83%",
     bottom: "2.53%",
@@ -224,14 +161,6 @@ const styles = StyleSheet.create({
     width: "10.83%",
     top: "93.04%",
     position: "absolute",
-  },
-  vectorIcon3: {
-    right: "46.39%",
-    left: "51.94%",
-  },
-  vectorIcon4: {
-    right: "43.61%",
-    left: "54.72%",
   },
   aboutUsScreenTeamItem: {
     height: "14.53%",
@@ -249,13 +178,6 @@ const styles = StyleSheet.create({
     left: "10.83%",
     position: "absolute",
   },
-  vectorIcon5: {
-    height: "4.22%",
-    width: "13.83%",
-    right: "5.83%",
-    bottom: "4.69%",
-    left: "81.33%",
-  },
   taskIcon: {
     height: "4.84%",
     width: "9.44%",
@@ -270,7 +192,7 @@ const styles = StyleSheet.create({
     left: "58.53%",
     position: "absolute",
   },
-  vectorIcon9: {
+  graphIcon: {
     height: "13.85%",
     width: "16.89%",
     position: "absolute",

@@ -48,25 +48,25 @@ const AboutUsScreen = () => {
         name="people"
         size={40}
         color="#132A17"
-        style={[styles.groupChat1Icon]}
+        style={[styles.TeamIcon]}
       />
       <Icon
         name="person-fill"
         size={40}
         color="#132A17"
-        style={[styles.user1Icon]}
+        style={[styles.UserIcon]}
       />
       <Icon
         name="briefcase"
         size={38}
         color="#132A17"
-        style={[styles.expert1Icon]}
+        style={[styles.BriefCaseIcon]}
       />
       <Icon
         name="webhook"
         size={38}
         color="#132A17"
-        style={[styles.pcbBoard1Icon]}
+        style={[styles.WebhookIcon]}
       />
 
       <View style={[styles.aboutUsScreenChild2, styles.aboutChildPosition]} />
@@ -78,7 +78,7 @@ const AboutUsScreen = () => {
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIconPNG]}
+        style={[styles.arrowleft]}
         onPress={() => navigation.navigate("HomeScreen")}
       >
         <Icon name="arrow-left" size={35} color="#132A17" />
@@ -88,21 +88,22 @@ const AboutUsScreen = () => {
         name="feed-person"
         size={35}
         color="#3A7D44"
-        style={[styles.vectorIcon2]}
+        style={[styles.informationbutton]}
       />
 
       <Pressable
         style={[styles.controlIcon]}
-        onPress={() => navigation.navigate("ControlOff")}
+        onPress={() => navigation.navigate("DeviceStatus")}
       >
         <Icon name="plus-circle" size={35} color="#132A17" />
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIcon9]}
+        style={[styles.Stats]}
         onPress={() => navigation.navigate("Stats")}
       >
         <Icon name="graph" size={32} color="#132A17" />
+        
       </Pressable>
     </View>
   );
@@ -165,12 +166,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 6,
-  },
-  getStarted: {
-    color: Color.colorBlack,
-  },
-  getStarted1: {
-    color: Color.colorSnow,
   },
   button: {
     height: "65.31%",
@@ -262,28 +257,28 @@ const styles = StyleSheet.create({
     top: "66.41%",
     bottom: "26.09%",
   },
-  groupChat1Icon: {
+  TeamIcon: {
     top: 208,
     left: 108,
     width: 54,
     height: 58,
     position: "absolute",
   },
-  user1Icon: {
+  UserIcon: {
     top: 307,
     left: 108,
     width: 50,
     height: 50,
     position: "absolute",
   },
-  expert1Icon: {
+  BriefCaseIcon: {
     top: 412,
     height: 44,
     width: 40,
     left: 108,
     position: "absolute",
   },
-  pcbBoard1Icon: {
+  WebhookIcon: {
     top: 510,
     height: 38,
     left: 108,
@@ -303,7 +298,7 @@ const styles = StyleSheet.create({
     left: "10.83%",
     position: "absolute",
   },
-  vectorIconPNG: {
+  arrowleft: {
     height: "15.47%",
     width: "25.53%",
     top: "7.28%",
@@ -313,7 +308,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  vectorIcon2: {
+  informationbutton: {
     height: "13.42%",
     right: "5.83%",
     bottom: "2.53%",
@@ -322,16 +317,6 @@ const styles = StyleSheet.create({
     top: "93.04%",
     position: "absolute",
   },
-  vectorIcon: {
-    height: "4.22%",
-    width: "13.83%",
-    right: "4.11%",
-    bottom: "4.84%",
-    left: "81.06%",
-    top: "93.94%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-  },
   controlIcon: {
     height: "10.06%",
     width: "10.28%",
@@ -339,20 +324,12 @@ const styles = StyleSheet.create({
     left: "58.53%",
     position: "absolute",
   },
-  vectorIcon9: {
+  Stats: {
     height: "13.85%",
     width: "16.89%",
     position: "absolute",
     top: "93.12%",
     left: "34.56%",
-  },
-  vectorIcon1: {
-    height: "3.27%",
-    width: "6.83%",
-    top: "7.38%",
-    right: "88.47%",
-    bottom: "89.66%",
-    left: "7%",
   },
   aboutUsScreen: {
     backgroundColor: Color.colorMediumseagreen,

@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
+import {StyleSheet,View,Text,TouchableOpacity,Pressable} from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { Border, FontFamily, FontSize, Color } from "../../GlobalStyles";
@@ -17,9 +11,9 @@ const AboutUsScreenDevice = () => {
   return (
     <View style={styles.aboutUsScreenDevice}>
       <View style={[styles.aboutUsScreenDeviceChild, styles.aboutLayout]} />
-      <Text style={[styles.device, styles.deviceTypo1]}>DEVICE</Text>
+      <Text style={[styles.deviceText]}>DEVICE</Text>
       <Text
-        style={[styles.theDeviceIs, styles.deviceTypo]}
+        style={[styles.deviceDescription]}
       >{`The device consists of several components such as the attractant modules (UV light and piezo buzzer), the web camera, and the DC fans. The enclosure of the components is made of transparent acrylic with a thickness of 3 millimeters. In addition to that, the bait compartment in the figure, which holds the attractant modules, is a customized 3D printed model made with PETG filament.
 `}</Text>
       <View style={[styles.aboutUsScreenDeviceItem, styles.aboutLayout]} />
@@ -31,7 +25,7 @@ const AboutUsScreenDevice = () => {
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIconPNG]}
+        style={[styles.arrowleft]}
         onPress={() => navigation.navigate("AboutUsScreen")}
       >
         <Icon name="arrow-left" size={35} color="#132A17" />
@@ -41,7 +35,7 @@ const AboutUsScreenDevice = () => {
         name="feed-person"
         size={35}
         color="#3A7D44"
-        style={[styles.vectorIcon2]}
+        style={[styles.informationIcon]}
       />
 
       <Pressable
@@ -52,7 +46,7 @@ const AboutUsScreenDevice = () => {
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIcon6]}
+        style={[styles.graphIcon]}
         onPress={() => navigation.navigate("Stats")}
       >
         <Icon name="graph" size={32} color="#132A17" />
@@ -76,20 +70,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: "100%",
   },
-  deviceTypo: {
-    textAlign: "center",
-    fontFamily: "Poppins-SemiBold",
-    fontWeight: "600",
-    position: "absolute",
-    color: "#F9E2D0",
-  },
-  deviceTypo1: {
-    textAlign: "center",
-    color: Color.colorBlack,
-    fontFamily: "Poppins-SemiBold",
-    fontWeight: "600",
-    position: "absolute",
-  },
   vectorIconLayout: {
     maxHeight: "100%",
     maxWidth: "100%",
@@ -108,7 +88,7 @@ const styles = StyleSheet.create({
     left: "0%",
     right: "0%",
   },
-  device: {
+  deviceText: {
     height: "4.53%",
     width: "32.28%",
     top: "7.25%",
@@ -118,8 +98,13 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
     letterSpacing: 2,
+    textAlign: "center",
+    color: Color.colorBlack,
+    fontFamily: "Poppins-SemiBold",
+    fontWeight: "600",
+    position: "absolute",
   },
-  theDeviceIs: {
+  deviceDescription: {
     height: "32.5%",
     width: "85.83%",
     top: "51.56%",
@@ -129,18 +114,13 @@ const styles = StyleSheet.create({
     textShadowColor: "#000",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
+    textAlign: "center",
+    fontFamily: "Poppins-SemiBold",
+    fontWeight: "600",
+    position: "absolute",
+    color: "#F9E2D0",
   },
-  vectorIcon: {
-    right: "54.17%",
-    left: "44.17%",
-    bottom: "49.53%",
-    top: "49.53%",
-    width: "1.67%",
-    height: "0.94%",
-    maxHeight: "100%",
-    maxWidth: "100%",
-  },
-  vectorIconPNG: {
+  arrowleft: {
     height: "15.47%",
     width: "25.53%",
     top: "7.28%",
@@ -150,7 +130,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  vectorIcon2: {
+  informationIcon: {
     height: "13.42%",
     right: "5.83%",
     bottom: "2.53%",
@@ -210,7 +190,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     shadowOpacity: 1,
   },
-  vectorIcon6: {
+  graphIcon: {
     height: "13.85%",
     width: "16.89%",
     position: "absolute",
