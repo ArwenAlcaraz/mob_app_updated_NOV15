@@ -16,7 +16,7 @@ const HomeScreen = () => {
   });
 
   if (!fontsLoaded) {
-    return null; // You can replace this with a loading indicator if needed
+    return null; 
   }
 
   const handleStatsPress = () => {
@@ -41,15 +41,6 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.aboutUsScreen}>
-      <View style={[styles.aboutUsScreenChild, styles.aboutChildPosition]} />
-      <Text style={[styles.about, styles.teamTypo]}>HOME</Text>
-
-      <Pressable
-        style={[styles.more3Icon]}
-        onPress={() => navigation.navigate("LeftPanel")}
-      >
-        <Icon name="three-bars" size={25} color="#132A17" />
-      </Pressable>
 
       <Image
         source={require("../assets/MyEntoLogo.png")}
@@ -117,12 +108,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     position: "absolute",
   },
-  aboutUsScreenChild: {
-    height: "15.78%",
-    top: "-3.44%",
-    bottom: "87.66%",
-    backgroundColor: "#F9E2D0",
-  },
   about: {
     height: "4.53%",
     width: "25.28%",
@@ -133,13 +118,6 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0, 0, 0, 0.75)",
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 2,
-  },
-  more3Icon: {
-    height: "3.75%",
-    width: "6.67%",
-    top: "1.10%",
-    bottom: "100%",
-    left: "-40.5%",
   },
   aboutUsScreen: {
     backgroundColor: Color.colorMediumseagreen,
@@ -156,7 +134,6 @@ const styles = StyleSheet.create({
     top: 55,
     position: "fixed",
   },
-
   logo1: {
     width: 85,
     height: 70,

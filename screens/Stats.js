@@ -1,15 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  Alert,
-  Dimensions,
-  Image,
-  Pressable,
-} from "react-native";
+import {StyleSheet,View,Text, Button, Alert, Dimensions, Image, Pressable,} from "react-native";
 import { Border, FontSize, FontFamily, Color } from "../GlobalStyles";
 import { useNavigation } from "@react-navigation/native";
 import { BarChart } from "react-native-gifted-charts";
@@ -240,14 +231,14 @@ const Stats = ({ route }) => {
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIconPNG]}
+        style={[styles.arrowleft]}
         onPress={() => navigation.navigate("HomeScreen")}
       >
         <Icon name="arrow-left" size={35} color="#132A17" />
       </Pressable>
 
       <Pressable
-        style={[styles.vectorIcon2, styles.iconPosition]}
+        style={[styles.informationIcon, styles.iconPosition]}
         onPress={() => navigation.navigate("AboutUsScreen")}
       >
         <Icon name="feed-person" size={35} color="#132A17" />
@@ -264,7 +255,7 @@ const Stats = ({ route }) => {
         name="graph"
         size={32}
         color="#3cb371"
-        style={[styles.vectorIcon9, styles.vectorIconLayout]}
+        style={[styles.graphIcon, styles.vectorIconLayout]}
       />
 
       <View style={styles.container}>
@@ -330,7 +321,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
-  vectorIconPNG: {
+  arrowleft: {
     height: "15.47%",
     width: "25.53%",
     top: "7.28%",
@@ -388,7 +379,7 @@ const styles = StyleSheet.create({
     left: "10.5%",
     position: "fixed",
   },
-  vectorIcon2: {
+  informationIcon: {
     height: "13.42%",
     right: "5.83%",
     bottom: "2.53%",
@@ -406,7 +397,7 @@ const styles = StyleSheet.create({
     left: "59.83%",
     position: "fixed",
   },
-  vectorIcon9: {
+ graphIcon: {
     height: "13.85%",
     width: "16.89%",
     top: "94.12%",

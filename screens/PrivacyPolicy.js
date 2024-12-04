@@ -8,16 +8,6 @@ const PrivacyPolicy = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.privacyPolicy}>
-      <Pressable
-        style={styles.vectorIcon}
-        onPress={() => navigation.navigate("SettingsDropDown")}
-      >
-        <Image
-          style={styles.vectorIcon}
-          contentFit="cover"
-          source={require("../assets/vector7.png")}
-        />
-      </Pressable>
       <Image
         style={styles.privacyPolicyChild}
         contentFit="cover"
@@ -147,16 +137,6 @@ const styles = StyleSheet.create({
   theUseOf: {
     top: "74.84%",
     left: 12,
-  },
-  vectorIcon: {
-    height: "15.47%",
-    width: "25.53%",
-    top: "7.28%",
-    right: "86.81%",
-    bottom: "93.25%",
-    left: "3.67%",
-    position: "absolute",
-    overflow: "hidden"
   },
   privacyPolicy: {
     backgroundColor: Color.colorAntiquewhite,

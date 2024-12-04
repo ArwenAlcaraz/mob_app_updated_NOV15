@@ -8,16 +8,6 @@ const TermsOfService = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.termsOfService}>
-      <Pressable
-        style={styles.vectorIcon}
-        onPress={() => navigation.navigate("SettingsDropDown")}
-      >
-        <Image
-          style={styles.vectorIcon}
-          contentFit="cover"
-          source={require("../assets/vector7.png")}
-        />
-      </Pressable>
       <Image
         style={styles.termsOfServiceChild}
         contentFit="cover"
@@ -160,16 +150,6 @@ const styles = StyleSheet.create({
     top: "56.66%",
     left: 10,
     color: Color.colorMediumseagreen,
-  },
-  vectorIcon: {
-    height: "15.47%",
-    width: "25.53%",
-    top: "7.28%",
-    right: "86.81%",
-    bottom: "93.25%",
-    left: "3.67%",
-    position: "absolute",
-    overflow: "hidden"
   },
   termsOfService: {
     backgroundColor: Color.colorAntiquewhite,
